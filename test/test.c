@@ -5,7 +5,7 @@
  * This file contains the implementation of the linked list data structure
  * and its associated functions.
  *
- * @author Loïck Lhote
+ * @author LoÃ¯ck Lhote
  * @date February 2023
  */
 
@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "list.h"
+#include <string.h>
 
 /**
  * @brief Creates a new linked list
@@ -29,52 +30,46 @@ List newList() {
  * @param L Pointer to the linked list to be freed
  */
 void freeList(List L) {
-	if (L==NULL) {
-		return;
-	}
-	freeList(L->nextCell);
-	free(L);
-    	return;
+    if (L == NULL) {
+	    return; 
+    }
+    freeList(L->nextCell);
+    free(L);
+    return;
 }
 
 /**
  * @brief Prints the contents of a linked list
  *
  * @param L Pointer to the linked list to be printed
- * @param type If type==0, prints only the values, otherwise print the couples (key,vlaue)
- *
- * Prints the linked list in the following way if k!=0:
- * [(key 1, value 1),(key 2, value 2), … ,(key k, value k)]
- * Prints the linked list in the following way if k==0:
- * [value 1,value 2,…,value k]
  */
-
-void printList(List L, int type) {
-	if (L==NULL) {
-		printf("[]\n");
-	}
-	else {
-		printf("[");
-		if (type!=0) {
-			List newlist = L->nextCell;
-			printf("(%s, %d)",L->key,L->value);
-			while (newlist!=NULL) {
-				printf(",(%s, %d)",newlist->key,newlist->value);
-				newlist=newlist->nextCell;
-			}
-		}
-		else {
-			List newlist = L->nextCell;
-			printf("%d",L->value);
-			while (newlist!=NULL) {
-				printf(", %d",newlist->value);
-				newlist=newlist->nextCell;
-			}
-		}
-		printf("]\n");
-	}
-	
+void printList(List L,int type) {
+    if (L==NULL) {
+    	printf("[]\n");
+    }
+    else {
+        if (type!=0) {
+	        List Aff = L->nextCell;
+	        printf("[(%s, %d)", L->key, L->value);
+	        while(Aff != NULL) {
+		        printf(", (%s, %d)", Aff->key, Aff->value);
+		        Aff = Aff->nextCell;
+            }
+        }
+        else {
+            List Aff = L->nextCell;
+            printf("[%d", L->value);
+            while(Aff != NULL) {
+                printf(", %d", Aff->value);
+                Aff = Aff->nextCell;
+            }
+        }
+	printf("]\n");
+    }
+    return;
 }
+
+
 /**
  * @brief Finds a key in a linked list
  *
@@ -84,15 +79,13 @@ void printList(List L, int type) {
  * @return A pointer to the first cell containing the key, or NULL if the key is not found
  */
 Cell* findKeyInList(List L, string key) {
-	List newlist;
-	newlist=L;
-	while (newlist!=NULL) {
-		if (strcmp(newlist->key,key)==0) {
-			return newlist;
-		}
-		newlist=newlist->nextCell;
-	}	
-	return NULL;
+    if (L==NULL) {
+    	return NULL;
+    }
+    if (strcmp(key, L->key)==0) {
+	    return L;
+    }
+    return findKeyInList(L->nextCell, key);
 }
 
 /**
@@ -102,21 +95,38 @@ Cell* findKeyInList(List L, string key) {
  * @param key Key to delete
  *
  * @return A pointer to the modified linked list
- * Only the first occurrence of the key is deleted.
  */
 List delKeyInList(List L, string key) {
-	List newlist;
-	newlist=malloc(sizeof(List));
-	if(L==NULL){
-		return L;
-	}
-	else{
-		
-		newlist=L->nextCell;
-		
-	}
+    if (L == NULL) {
+	    return L;
+    }
 
-    return newlist;
+    Cell* Act = L;
+    Cell* Fut = L->nextCell;
+
+    while (strcmp(key, L->key)==0) {
+	    if(Fut==NULL) {
+		    free(L);
+		    return NULL;
+	    }
+	    L=Fut;
+	    free(Act);
+	    Act=L;
+	    Fut=Act->nextCell;
+    }
+    	    
+    while (Fut != NULL) {
+	    if(strcmp(Fut->key, key)==0) {
+		    Act->nextCell=Fut->nextCell;
+		    free(Fut);
+		    Fut=Act->nextCell;
+	    }
+	    else {
+		    Act=Fut;
+		    Fut=Fut->nextCell;
+	    }
+    }
+    return L;
 }
 
 /**
@@ -132,13 +142,10 @@ List delKeyInList(List L, string key) {
  */
 
  List addKeyValueInList(List L, string key, int value) {
-	 List newlist;
-	 newlist=(List)malloc(sizeof(Cell));
-	 newlist->key=key;
-	 newlist->value=value;
-	 newlist->nextCell=L;
-
-    return newlist;
+	 List NewL = (List) malloc(sizeof(Cell));
+	 NewL->value = value;
+	 NewL->nextCell = L;
+	 NewL->key = key;
+    return NewL;
 }
-
 
