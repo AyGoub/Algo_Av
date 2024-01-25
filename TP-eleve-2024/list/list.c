@@ -48,33 +48,29 @@ void freeList(List L) {
  * Prints the linked list in the following way if k==0:
  * [value 1,value 2,…,value k]
  */
-
 void printList(List L, int type) {
-	if (L==NULL) {
-		printf("[]\n");
-	}
-	else {
-		printf("[");
-		if (type!=0) {
-			List newlist = L->nextCell;
-			printf("(%s, %d)",L->key,L->value);
-			while (newlist!=NULL) {
-				printf(",(%s, %d)",newlist->key,newlist->value);
-				newlist=newlist->nextCell;
-			}
-		}
-		else {
-			List newlist = L->nextCell;
-			printf("%d",L->value);
-			while (newlist!=NULL) {
-				printf(", %d",newlist->value);
-				newlist=newlist->nextCell;
-			}
-		}
-		printf("]\n");
-	}
-	
+    if (L==NULL) {
+        printf("[]\n");
+    }
+    else {
+        printf("[");
+        List newlist = L;
+        while (newlist!=NULL) {
+            if (type!=0) {
+                printf("(%s, %d)", newlist->key, newlist->value);
+            }
+            else {
+                printf("%d", newlist->value);
+            }
+            if (newlist->nextCell != NULL) {
+                printf(", ");
+            }
+            newlist = newlist->nextCell;
+        }
+        printf("]\n");
+    }
 }
+
 /**
  * @brief Finds a key in a linked list
  *
@@ -84,15 +80,18 @@ void printList(List L, int type) {
  * @return A pointer to the first cell containing the key, or NULL if the key is not found
  */
 Cell* findKeyInList(List L, string key) {
-	List newlist;
-	newlist=L;
-	while (newlist!=NULL) {
-		if (strcmp(newlist->key,key)==0) {
-			return newlist;
-		}
-		newlist=newlist->nextCell;
-	}	
-	return NULL;
+    if (L == NULL) {
+        return NULL;
+    }
+    List newlist = L;
+    while (newlist != NULL) {
+        if ((newlist->key == NULL && key == NULL) || 
+            (newlist->key != NULL && key != NULL && strcmp(newlist->key, key) == 0)) {
+            return newlist;
+        }
+        newlist = newlist->nextCell;
+    }   
+    return NULL;
 }
 
 /**
@@ -105,18 +104,22 @@ Cell* findKeyInList(List L, string key) {
  * Only the first occurrence of the key is deleted.
  */
 List delKeyInList(List L, string key) {
-	List newlist;
-	newlist=malloc(sizeof(List));
-	if(L==NULL){
-		return L;
-	}
-	else{
-		
-		newlist=L->nextCell;
-		
-	}
-
-    return newlist;
+	List newList;
+    if (L == NULL) {
+        return NULL;
+    }
+    if (key == NULL && L->key == NULL) {
+        newList = L->nextCell;
+        free(L);
+        return newList;
+    }
+    if (key != NULL && L->key != NULL && strcmp(L->key, key) == 0) {
+        newList = L->nextCell;
+        free(L);
+        return newList;
+    }
+    L->nextCell = delKeyInList(L->nextCell, key);
+    return L;
 }
 
 /**
