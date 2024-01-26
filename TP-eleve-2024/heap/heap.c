@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
 #include "heap.h"
 
 /**
@@ -26,7 +27,21 @@ void swap(Heap *h, int i, int j) {
  * The elements of the arrays position and priority are initialized to -1
  */
 Heap* createHeap(int n) {
-    return NULL;
+    if (n <= 0) {
+        return NULL;
+    }
+    Heap *h = malloc(sizeof(Heap));
+    h->n = n;
+    h->nbElements = 0;
+    h->position = malloc(n*sizeof(int));
+    h->heap = malloc(n*sizeof(int));
+    h->priority = malloc(n*sizeof(double));
+    for (int i=0;i<n;i++) {
+        h->position[i]=-1;
+        h->priority[i]=-1;
+        h->heap[i]=-1;
+    }
+    return h;
 }
 
 /**
@@ -34,7 +49,24 @@ Heap* createHeap(int n) {
  * @param h The Heap data structure to print.
  */
 void printHeap(Heap h) {
-    return;
+    printf("\n");
+    printf("n: %d\n", h.n);
+    printf("nbElements: %d\n", h.nbElements);
+    printf("position: [");
+    for (int i=0;i<h.n;i++) {
+        printf("%d ",h.position[i]);
+    }
+    printf("]\n");
+    printf("priority: [");
+    for (int k=0;k<h.n;k++) {
+        printf("%.2f ",h.priority[k]);
+    }
+    printf("]\n");
+    printf("heap: [");
+    for (int j=0;j<h.n;j++) {
+        printf("%d ",h.heap[j]);
+    }
+    printf("]\n");
 }
 
 /**
@@ -43,7 +75,18 @@ void printHeap(Heap h) {
  * @return The element with the smallest priority.
  */
 int getElement(Heap h) {
-    return 0;
+    if (h.nbElements == 0) {
+        return -1;
+    }
+    double min= DBL_MAX;
+    int index = -1;
+    for (int i=0;i<h.n;i++) {
+        if (h.priority[i]<min && h.priority[i]!=-1) {
+            min = h.priority[i];
+            index = i;
+        }
+    }
+    return index;
 }
 
 /**
@@ -53,7 +96,34 @@ int getElement(Heap h) {
  * @param priority The priority of the element to insert.
  */
 void insertHeap(Heap *h, int element, double priority) {
-    return;
+    if (h->nbElements==h->n) {
+        return;
+    }
+    h->nbElements++;
+    h->priority[element]=priority;
+    h->heap[h->nbElements-1]=element;
+    int i = h->nbElements-1;
+    while (i>0) {
+        if (i%2==0) {
+            if (h->priority[h->heap[i]]<h->priority[h->heap[(i-2)/2]]) {
+                swap(h,i,(i-2)/2);
+                i=(i-2)/2;
+
+            }
+            else {
+                break;
+            }
+        }
+        else {
+            if (h->priority[h->heap[i]]<h->priority[h->heap[(i-1)/2]]) {
+                swap(h,i,(i-1)/2);
+                i=(i-1)/2;
+            }
+            else {
+                break;
+            }
+        }
+    }
 }
 
 /**
@@ -63,7 +133,30 @@ void insertHeap(Heap *h, int element, double priority) {
  * @param priority The new priority of the element.
  */
 void modifyPriorityHeap(Heap *h, int element, double priority) {
-    return;
+    h->priority[element]=priority;
+    int i = h->position[element];
+    while (i<h->nbElements) {
+        if (i%2==0) {
+            if (h->priority[h->heap[i]]>h->priority[h->heap[2*i+2]]) {
+                swap(h,i,2*i+2);
+                i=2*i+2;
+
+            }
+            else {
+                break;
+            }
+        }
+        else {
+            if (h->priority[h->heap[i]]>h->priority[h->heap[2*i+1]]) {
+                swap(h,i,2*i+1);
+                i=2*i+1;
+            }
+            else {
+                break;
+            }
+        }
+    }
+    
 }
 
 
