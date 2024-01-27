@@ -133,30 +133,37 @@ void insertHeap(Heap *h, int element, double priority) {
  * @param priority The new priority of the element.
  */
 void modifyPriorityHeap(Heap *h, int element, double priority) {
-    h->priority[element]=priority;
+    double temp = h->priority[element];
+    h->priority[element] = priority;
     int i = h->position[element];
-    while (i<h->nbElements) {
-        if (i%2==0) {
-            if (h->priority[h->heap[i]]>h->priority[h->heap[2*i+2]]) {
-                swap(h,i,2*i+2);
-                i=2*i+2;
-
-            }
-            else {
+    if (temp < priority) {
+        while (i < h->nbElements) {
+            int leftChild = 2 * i + 1;
+            int rightChild = 2 * i + 2;
+            if ((leftChild < h->nbElements && h->priority[h->heap[i]] > h->priority[h->heap[leftChild]]) ||
+                (rightChild < h->nbElements && h->priority[h->heap[i]] > h->priority[h->heap[rightChild]])) {
+                if (rightChild >= h->nbElements || h->priority[h->heap[leftChild]] < h->priority[h->heap[rightChild]]) {
+                    swap(h, i, leftChild);
+                    i = leftChild;
+                } else {
+                    swap(h, i, rightChild);
+                    i = rightChild;
+                }
+            } else {
                 break;
             }
         }
-        else {
-            if (h->priority[h->heap[i]]>h->priority[h->heap[2*i+1]]) {
-                swap(h,i,2*i+1);
-                i=2*i+1;
-            }
-            else {
+    } else {
+        while (i > 0) {
+            int parent = i % 2 == 0 ? (i - 2) / 2 : (i - 1) / 2;
+            if (h->priority[h->heap[i]] < h->priority[h->heap[parent]]) {
+                swap(h, i, parent);
+                i = parent;
+            } else {
                 break;
             }
         }
     }
-    
 }
 
 
