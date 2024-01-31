@@ -63,7 +63,7 @@ void printHeap(Heap h) {
     }
     printf("]\n");
     printf("heap: [");
-    for (int j=0;j<h.n;j++) {
+    for (int j=0;j<h.nbElements;j++) {
         printf("%d ",h.heap[j]);
     }
     printf("]\n");
@@ -102,6 +102,7 @@ void insertHeap(Heap *h, int element, double priority) {
     h->nbElements++;
     h->priority[element]=priority;
     h->heap[h->nbElements-1]=element;
+    h->position[element]=h->nbElements-1;
     int i = h->nbElements-1;
     while (i>0) {
         if (i%2==0) {
@@ -173,7 +174,36 @@ void modifyPriorityHeap(Heap *h, int element, double priority) {
  * @return The element with the smallest priority that was removed from the Heap data structure.
  */
 int removeElement(Heap *h) {
-    return 0;
+    if (h->nbElements == 0) {
+        printf("Le tas est vide\n");
+        return -1;
+    }
+
+    int minElement = h->heap[0];
+    swap(h, 0, h->nbElements-1);
+    h->nbElements--;
+
+    int i = 0;
+    while (i < h->nbElements) {
+        int leftChild = 2*i+1;
+        int rightChild = 2*i+2;
+
+        if (leftChild >= h->nbElements) {
+            break;
+        }
+
+        int index = (rightChild >= h->nbElements || h->priority[h->heap[leftChild]] < h->priority[h->heap[rightChild]]) ? leftChild : rightChild;
+
+        if (h->priority[h->heap[i]] > h->priority[h->heap[index]]) {
+            swap(h, i, index);
+            i = index;
+        } else {
+            break;
+        }
+    }
+    h->position[minElement] = -1;
+
+    return minElement;
 }
 
 

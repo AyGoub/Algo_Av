@@ -4,10 +4,10 @@
 
 int main() {
     Stack* s = createStack() ;
-    //stackPrint(*s);
+    stackPrint(*s);
 
     // Add elements to the queue
-    /*
+    
     printf("\nAdd 1 to stack:\n");
     push(s, 1);
     stackPrint(*s);
@@ -17,10 +17,10 @@ int main() {
     printf("\nAdd 3 to stack:\n");
     push(s, 3);
     stackPrint(*s);
-    */
+    
     // Remove an element from the stack
-    /*
-    int top = pop(s);
+    
+    /*int top = pop(s);
     printf("\npoped value: %d\n", top);
     // Print the elements in the stack
     printf("Updated stack:\n");
@@ -29,8 +29,8 @@ int main() {
     printf("\npoped value: %d\n", top);
     // Print the elements in the stack
     printf("Updated stack:\n");
-    stackPrint(*s);
-    */
+    stackPrint(*s);*/
+    
     /*
     printf("\nadd 4 to stack:\n");
     push(s, 4);
