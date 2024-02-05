@@ -14,9 +14,9 @@
  * @return A pointer to the new stack.
  */
 Stack* createStack() {
-    Stack* stack = malloc(sizeof(Stack));
-    *stack = NULL;
-    return stack;
+    Stack* s=malloc(sizeof(Stack)); 
+    *s=newList();
+    return s;
 }
 
 /**
@@ -26,11 +26,20 @@ Stack* createStack() {
  * @param data The data to push onto the stack.
  */
 void push(Stack* stack, int data) {
-    Stack newStack = malloc(sizeof(Stack));
-    newStack->value = data;
-    newStack->nextCell = *stack;
-    *stack = newStack;
-    return;
+
+    Cell* newCell = (Cell*)malloc(sizeof(Cell));
+    if (newCell == NULL) {
+        // Gestion d'erreur en cas d'échec d'allocation
+        return;
+    }
+
+    newCell->value = data;
+    newCell->nextCell = *stack; 
+    *stack = newCell; 
+
+
+
+    
 }
 
 /**
@@ -41,13 +50,8 @@ void push(Stack* stack, int data) {
  * @return The data from the top element of the stack.
  */
 int pop(Stack* stack) {
-    if (stack==NULL) {
-        return 0;
-    }
-    Stack newStack = *stack;
-    int value = newStack->value;
-    *stack = newStack->nextCell;
-    free(newStack);
+    int value=(*stack)->value;
+    (*stack)=(*stack)->nextCell;
     return value;
 }
 
@@ -59,9 +63,7 @@ int pop(Stack* stack) {
  * @return The data from the top element of the stack.
  */
 int peek(Stack stack) {
-    if (stack==NULL) {
-        return 0;
-    }
+
     return stack->value;
 }
 
@@ -73,9 +75,8 @@ int peek(Stack stack) {
  * @return 1 if the stack is empty, 0 otherwise.
  */
 int isStackEmpty(Stack stack) {
-    if (stack==NULL) {
+    if(stack==NULL)
         return 1;
-    }
     return 0;
 }
 
@@ -85,20 +86,6 @@ int isStackEmpty(Stack stack) {
  * @param stack The stack to print.
  */
 void stackPrint(Stack stack) {
-    if (stack==NULL) {
-        printf("[]\n");
-    }
-    else {
-        printf("[");
-        Stack newstack = stack;
-        while (newstack!=NULL) {
-            printf("%d", newstack->value);
-            if (newstack->nextCell != NULL) {
-                printf(", ");
-            }
-            newstack = newstack->nextCell;
-        }
-        printf("]\n");
-    }
-    return;
+    int type=0;
+    printList(stack,type);
 }

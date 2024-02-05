@@ -208,8 +208,8 @@ void testCountDistinctWordsInBook(){
 int main() {
 
     testMurmurhash();
-    //testCreateAndPrint();
-    //testHashtableInsertWithoutResizing();
+    testCreateAndPrint();
+    testHashtableInsertWithoutResizing();
     //testHashtableDestroy();
     //testHashtableDoubleSize();
     //testHashtableInsert();

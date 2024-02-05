@@ -113,6 +113,9 @@ void hashtablePrint(HashTable hashtable) {
  */
 HashTable hashtableCreate(size_t sizeTable) {
     HashTable hashtable;
+    hashtable.sizeTable=sizeTable;
+    hashtable.numberOfPairs=0;
+    hashtable.table = (List *)malloc(sizeTable*sizeof(List));
     return hashtable;
 }
 
@@ -134,6 +137,16 @@ HashTable hashtableCreate(size_t sizeTable) {
  * a pointer on the hash table.
  */
 void hashtableInsertWithoutResizing(HashTable *hashtable, string key, int value){
+    size_t index = murmurhash(key,strlen(key),hashtable->sizeTable);
+    List currentList = hashtable->table[index];
+    Cell *cell = findKeyInList(currentList,key);
+    if(cell!=NULL){
+        cell->value=value;
+    }
+    else{
+        hashtable->table[index]=addKeyValueInList(currentList,key,value);
+        hashtable->numberOfPairs++;
+    }
     return;
 }
 
@@ -148,6 +161,13 @@ void hashtableInsertWithoutResizing(HashTable *hashtable, string key, int value)
  * @param hashtable hash table to free
  */
 void hashtableDestroy(HashTable *hashtable) {
+    for (size_t i=0;i<hashtable->sizeTable;i++) {
+        freeList(hashtable->table[i]);
+    }
+    free(hashtable->table);
+    hashtable->sizeTable=0;
+    hashtable->numberOfPairs=0;
+    hashtable->table=NULL;
     return;
 }
 
@@ -163,6 +183,19 @@ void hashtableDestroy(HashTable *hashtable) {
  */
 HashTable hashtableDoubleSize(HashTable hashtable) {
     HashTable newHashtable;
+    newHashtable.sizeTable=2*hashtable.sizeTable;
+    newHashtable.numberOfPairs=hashtable.numberOfPairs;
+    newHashtable.table = (List *)malloc(newHashtable.sizeTable*sizeof(List));
+    for (size_t i=0;i<newHashtable.sizeTable;i++) {
+        newHashtable.table[i] = NULL;
+    }
+    for (size_t i=0;i<hashtable.sizeTable;i++) {
+        List currentList=hashtable.table[i];
+        while(currentList!=NULL){
+            hashtableInsertWithoutResizing(&newHashtable,currentList->key,currentList->value);
+            currentList=currentList->nextCell;
+        }
+    }
     return newHashtable;
 }
 
@@ -184,6 +217,10 @@ HashTable hashtableDoubleSize(HashTable hashtable) {
  * Pay attention to the memory !
  */
 void hashtableInsert(HashTable *hashtable, string key,  int value){
+    if(hashtable->numberOfPairs>=hashtable->sizeTable){
+        *hashtable=hashtableDoubleSize(*hashtable);
+    }
+    hashtableInsertWithoutResizing(hashtable,key,value);
     return;
 }
 
@@ -194,6 +231,12 @@ void hashtableInsert(HashTable *hashtable, string key,  int value){
  * @return 1 if the key is in the table, 0 otherwise.
  */
 int hashtableHasKey(HashTable hashtable, string key){
+    size_t index = murmurhash(key,strlen(key),hashtable.sizeTable);
+    List currentList = hashtable.table[index];
+    Cell *cell = findKeyInList(currentList,key);
+    if(cell!=NULL){
+        return 1;
+    }
     return 0;
 }
 
@@ -206,7 +249,13 @@ int hashtableHasKey(HashTable hashtable, string key){
  * @return the value associated to the key
  */
 int hashtableGetValue(HashTable hashtable, string key){
-    return 0;
+    size_t index = murmurhash(key,strlen(key),hashtable.sizeTable);
+    List currentList = hashtable.table[index];
+    Cell *cell = findKeyInList(currentList,key);
+    if(cell!=NULL){
+        return cell->value;
+    }
+    return -1;
 }
 
 
@@ -219,6 +268,15 @@ int hashtableGetValue(HashTable hashtable, string key){
  * @return 0 if the key was not in the hash table, 1 otherwise
  */
 int hashtableRemove(HashTable *hashtable, string key){
+    size_t index = murmurhash(key,strlen(key),hashtable->sizeTable);
+    List currentList = hashtable->table[index];
+    Cell *cell = findKeyInList(currentList,key);
+    if(cell!=NULL){
+        hashtable->table[index]=delKeyInList(currentList,key);
+        hashtable->numberOfPairs--;
+        return 1;
+
+    }
     return 0;
 }
 
@@ -229,5 +287,23 @@ int hashtableRemove(HashTable *hashtable, string key){
  *
  */
 void countDistinctWordsInBook(){
+    FILE *file = fopen("potter-clean.txt", "r");
+    if (file == NULL) {
+        printf("Error:file not found\n");
+        return;
+    }
+    HashTable table = hashtableCreate(4);
+    char word[100];
+    while (fscanf(file, "%s", word) != EOF) {
+        if (hashtableHasKey(table, word)) {
+            hashtableInsert(&table, word, hashtableGetValue(table, word) + 1);
+        } else {
+            hashtableInsert(&table, word, 1);
+        }
+    }
+    printf("Number of words: %zu\n", table.numberOfPairs);
+    printf("Number of distinct words: %zu\n", table.sizeTable);
+    fclose(file);
+    hashtableDestroy(&table);
     return;
 }
