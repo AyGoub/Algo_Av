@@ -117,44 +117,11 @@ BinarySearchTree searchBST(BinarySearchTree tree, int value) {
  * @return A pointer to the root of the modified tree.
  */
 BinarySearchTree deleteRootBST(BinarySearchTree tree) {
-    if (tree == NULL) {
-        return NULL; // Tree is already empty
-    }
-
-    // Case 1: No child
-    if (tree->leftBST == NULL && tree->rightBST == NULL) {
-        free(tree);
+    if (tree==NULL) {
         return NULL;
     }
-
-    // Case 2: One child
-    if (tree->leftBST == NULL) {
-        BinarySearchTree newRoot = tree->rightBST;
-        free(tree);
-        return newRoot;
-    } else if (tree->rightBST == NULL) {
-        BinarySearchTree newRoot = tree->leftBST;
-        free(tree);
-        return newRoot;
-    }
-
-    // Case 3: Two children
-    // Find the smallest node in the right subtree (or largest in left)
-    BinarySearchTree successor = tree->rightBST;
-    while (successor->leftBST != NULL) {
-        successor = successor->leftBST;
-    }
-
-    // Copy the successor's data to the root
-    tree->value = successor->value;
-
-    // Delete the successor node
-    tree->rightBST = deleteRootBST(tree->rightBST);
-
-    return tree;
-
+    return deleteFromBST(tree,tree->value);
 }
-
 
 /**
  * @brief Delete a value from a binary search tree.
@@ -164,33 +131,29 @@ BinarySearchTree deleteRootBST(BinarySearchTree tree) {
  */
 BinarySearchTree deleteFromBST(BinarySearchTree tree, int value) {
     if (tree == NULL) {
-        return NULL; 
+        return NULL;
     }
     if (value < tree->value) {
         tree->leftBST = deleteFromBST(tree->leftBST, value);
     } else if (value > tree->value) {
         tree->rightBST = deleteFromBST(tree->rightBST, value);
     } else {
-    
         if (tree->leftBST == NULL) {
-            BinarySearchTree temp = tree->rightBST;
+            BinarySearchTree newRoot = tree->rightBST;
             free(tree);
-            return temp;
+            return newRoot;
         } else if (tree->rightBST == NULL) {
-            BinarySearchTree temp = tree->leftBST;
+            BinarySearchTree newRoot = tree->leftBST;
             free(tree);
-            return temp;
+            return newRoot;
         }
         BinarySearchTree successor = tree->rightBST;
         while (successor->leftBST != NULL) {
             successor = successor->leftBST;
         }
-
-        
         tree->value = successor->value;
-        tree->rightBST = deleteFromBST(tree->rightBST,value);
+        tree->rightBST = deleteFromBST(tree->rightBST, successor->value);
     }
-
     return tree;
 }
 

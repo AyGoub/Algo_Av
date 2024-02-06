@@ -31,6 +31,7 @@ RBinarySearchTree createEmptyRBST(){
  * @param tree Pointer to the root of the tree.
  */
 void freeRBST(RBinarySearchTree tree){
+    
     return;
 }
 
