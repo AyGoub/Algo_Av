@@ -116,6 +116,9 @@ HashTable hashtableCreate(size_t sizeTable) {
     hashtable.sizeTable=sizeTable;
     hashtable.numberOfPairs=0;
     hashtable.table = (List *)malloc(sizeTable*sizeof(List));
+    for (size_t i=0;i<sizeTable;i++) {
+        hashtable.table[i] = NULL;
+    }
     return hashtable;
 }
 
@@ -183,18 +186,28 @@ void hashtableDestroy(HashTable *hashtable) {
  */
 HashTable hashtableDoubleSize(HashTable hashtable) {
     HashTable newHashtable;
-    newHashtable.sizeTable=2*hashtable.sizeTable;
-    newHashtable.numberOfPairs=hashtable.numberOfPairs;
-    newHashtable.table = (List *)malloc(newHashtable.sizeTable*sizeof(List));
-    for (size_t i=0;i<newHashtable.sizeTable;i++) {
-        newHashtable.table[i] = NULL;
-    }
-    for (size_t i=0;i<hashtable.sizeTable;i++) {
-        List currentList=hashtable.table[i];
-        while(currentList!=NULL){
-            hashtableInsertWithoutResizing(&newHashtable,currentList->key,currentList->value);
-            currentList=currentList->nextCell;
+    newHashtable = hashtableCreate(2 * hashtable.sizeTable);
+    for (size_t i = 0; i < hashtable.sizeTable; i++) {
+        Cell* currentList = hashtable.table[i];
+        Cell* reversedList = NULL;
+        Cell* newCell;
+        while (currentList != NULL) {
+            newCell = malloc(sizeof(Cell));
+            newCell->key = currentList->key;
+            newCell->value = currentList->value;
+            newCell->nextCell = reversedList;
+            reversedList = newCell;
+            currentList = currentList->nextCell;
         }
+        currentList = reversedList;
+        do {
+            if (currentList != NULL) {
+                hashtableInsertWithoutResizing(&newHashtable, currentList->key, currentList->value);
+                Cell* temp = currentList;
+                currentList = currentList->nextCell;
+                free(temp);
+            }
+        } while (currentList != NULL);
     }
     return newHashtable;
 }
@@ -280,6 +293,40 @@ int hashtableRemove(HashTable *hashtable, string key){
     return 0;
 }
 
+/**
+ * Returns the number of cellules in the hash table
+ * @param hashtable the hash table to count
+ * @return the number of cellules in the hash table
+ */
+long long int NumberofCellules(HashTable hashtable){
+   long long int count=0;
+    for (size_t i = 0; i < hashtable.sizeTable; i++) {
+        List currentList = hashtable.table[i];
+        while (currentList != NULL) {
+            count++;
+            currentList = currentList->nextCell;
+        }
+    }
+    return count;
+}
+
+/**
+ * Returns the sum of the values in the hash table
+ * @param hashtable the hash table to sum
+ * @return the sum of the values in the hash table
+ */
+long long int SumofValues(HashTable hashtable){
+    long long int sum=0;
+    for (size_t i = 0; i < hashtable.sizeTable; i++) {
+        List currentList = hashtable.table[i];
+        while (currentList != NULL) {
+            sum+=(long long int)currentList->value;
+            currentList = currentList->nextCell;
+        }
+    }
+    return sum;
+}
+
 
 /**
  * Prints the number of words and distinct words in the file
@@ -295,14 +342,16 @@ void countDistinctWordsInBook(){
     HashTable table = hashtableCreate(4);
     char word[100];
     while (fscanf(file, "%s", word) != EOF) {
-        if (hashtableHasKey(table, word)) {
-            hashtableInsert(&table, word, hashtableGetValue(table, word) + 1);
+        char *key=malloc((strlen(word)+1)*sizeof(char));
+        strcpy(key,word);
+        if (hashtableHasKey(table, key)) {
+            hashtableInsert(&table, key, hashtableGetValue(table, key) + 1);
         } else {
-            hashtableInsert(&table, word, 1);
+            hashtableInsert(&table, key, 1);
         }
     }
-    printf("Number of words: %zu\n", table.numberOfPairs);
-    printf("Number of distinct words: %zu\n", table.sizeTable);
+    printf("Number of words: %lli\n", SumofValues(table));
+    printf("Number of distinct words: %lli\n", NumberofCellules(table));
     fclose(file);
     hashtableDestroy(&table);
     return;

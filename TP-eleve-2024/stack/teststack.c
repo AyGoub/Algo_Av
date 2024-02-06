@@ -20,7 +20,7 @@ int main() {
     
     // Remove an element from the stack
     
-    /*int top = pop(s);
+    int top = pop(s);
     printf("\npoped value: %d\n", top);
     // Print the elements in the stack
     printf("Updated stack:\n");
@@ -29,21 +29,21 @@ int main() {
     printf("\npoped value: %d\n", top);
     // Print the elements in the stack
     printf("Updated stack:\n");
-    stackPrint(*s);*/
+    stackPrint(*s);
     
-    /*
+    
     printf("\nadd 4 to stack:\n");
     push(s, 4);
     stackPrint(*s);
     printf("\nTop value of the stack: %d\n",peek(*s));
     stackPrint(*s);
-    */
+    
 
     // Check if the stack is empty
-    //printf("\nIs stack empty? %d\n", isStackEmpty(*s));
+    printf("\nIs stack empty? %d\n", isStackEmpty(*s));
 
     // Remove all elements from the stack
-    /*
+    
     while (!isStackEmpty(*s)) {
         pop(s);
     }
@@ -53,7 +53,7 @@ int main() {
 
     // Check if the stack is empty
     printf("\nIs stack empty? %d\n", isStackEmpty(*s));
-    */
+    
     free(s);
 
     return 0;

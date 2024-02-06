@@ -46,7 +46,7 @@ void testHashtableInsertWithoutResizing(){
     HashTable table = hashtableCreate(4);
     hashtablePrint(table);
     for(int value=0;value<nbsteps*step;value+=step){
-        char key[10];
+        char* key=malloc(10*sizeof(char));
         sprintf(key,"%d",value);
         hashtableInsertWithoutResizing(&table,key,value);
         hashtablePrint(table);
@@ -64,7 +64,7 @@ void testHashtableDestroy(){
     HashTable table = hashtableCreate(4);
     hashtablePrint(table);
     for(int value=0;value<nbsteps*step;value+=step){
-        char key[10];
+        char* key=malloc(10*sizeof(char));
         sprintf(key,"%d",value);
         hashtableInsertWithoutResizing(&table,key,value);
     }
@@ -85,7 +85,7 @@ void testHashtableDoubleSize(){
     HashTable table = hashtableCreate(4);
     hashtablePrint(table);
     for(int value=0;value<nbsteps*step;value+=step){
-        char key[10];
+        char* key=malloc(10*sizeof(char));
         sprintf(key,"%d",value);
         hashtableInsertWithoutResizing(&table,key,value);
     }
@@ -109,7 +109,7 @@ void testHashtableInsert(){
     int step =100;
     HashTable table = hashtableCreate(4);
     for(int value=0;value<nbsteps*step;value+=step){
-        char key[10];
+        char* key=malloc(10*sizeof(char));
         sprintf(key,"%d",value);
         hashtableInsert(&table,key,value);
         hashtablePrint(table);
@@ -126,7 +126,7 @@ void testHashtableHasKey(){
     int step =100;
     HashTable table = hashtableCreate(4);
     for(int value=0;value<nbsteps*step;value+=step){
-        char key[10];
+        char* key=malloc(10*sizeof(char));
         sprintf(key,"%d",value);
         hashtableInsert(&table,key,value);
     }
@@ -152,7 +152,7 @@ void testHashtableGetValue(){
     int step =100;
     HashTable table = hashtableCreate(4);
     for(int value=0;value<nbsteps*step;value+=step){
-        char key[10];
+        char* key=malloc(10*sizeof(char));
         sprintf(key,"%d",value);
         hashtableInsert(&table,key,value);
     }
@@ -174,7 +174,7 @@ void testHashtableRemove(){
     int step =100;
     HashTable table = hashtableCreate(4);
     for(int value=0;value<nbsteps*step;value+=step){
-        char key[10];
+        char* key=malloc(10*sizeof(char));
         sprintf(key,"%d",value);
         hashtableInsert(&table,key,value);
     }
@@ -206,16 +206,16 @@ void testCountDistinctWordsInBook(){
 
 
 int main() {
-
-    testMurmurhash();
-    testCreateAndPrint();
-    testHashtableInsertWithoutResizing();
+    //testMurmurhash();
+    //testCreateAndPrint();
+    //testHashtableInsertWithoutResizing();
     //testHashtableDestroy();
     //testHashtableDoubleSize();
     //testHashtableInsert();
+    //testHashtableHasKey();
     //testHashtableGetValue();
     //testHashtableRemove();
-    //testCountDistinctWordsInBook();
+    testCountDistinctWordsInBook();
 
 
     return 0;

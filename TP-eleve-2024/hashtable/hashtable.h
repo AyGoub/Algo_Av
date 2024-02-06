@@ -151,4 +151,20 @@ void hashtablePrint(HashTable hashtable) ;
  */
 void countDistinctWordsInBook();
 
+/**
+ * @brief Returns the number of cells in the hash table
+ *
+ * @param hashtable Hash table to be counted
+ * @return Number of cells in the hash table
+ */
+long long int NumberofCellules(HashTable hashtable);
+
+/**
+ * @brief Returns the sum of the values in the hash table
+ *
+ * @param hashtable Hash table to be summed
+ * @return Sum of the values in the hash table
+ */
+long long int SumofValues(HashTable hashtable);
+
 #endif // HASHTABLE_H_INCLUDED
