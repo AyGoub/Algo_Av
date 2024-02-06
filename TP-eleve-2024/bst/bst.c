@@ -29,7 +29,17 @@ BinarySearchTree createEmptyBST() {
  * @param tree Pointer to the root of the tree.
  */
 void freeBST(BinarySearchTree tree) {
-    return;
+    if(tree==NULL){
+        return;
+    }
+    if(tree->leftBST==NULL && tree->rightBST==NULL){
+        free(tree);
+        return;
+    }
+    freeBST(tree->leftBST);
+    freeBST(tree->rightBST);
+    
+
 }
 
 
@@ -40,7 +50,22 @@ void freeBST(BinarySearchTree tree) {
  * @return A pointer to the root of the modified tree.
  */
 BinarySearchTree addToBST(BinarySearchTree tree, int value) {
-    return NULL;
+    if(tree==NULL){
+        BinarySearchTree newtree=malloc(sizeof(NodeBST));
+        newtree->value=value;
+        newtree->leftBST=NULL;
+        newtree->rightBST=NULL;
+        return newtree;
+    }
+    if(tree->value<value){
+        tree->rightBST=addToBST(tree->rightBST,value);
+
+    }
+    else{
+        tree->leftBST=addToBST(tree->leftBST,value);
+    }
+
+    
 }
 
 
@@ -50,7 +75,20 @@ BinarySearchTree addToBST(BinarySearchTree tree, int value) {
  * @return The height of the tree.
  */
 int heightBST(BinarySearchTree tree) {
-    return -2;
+    int height=0;
+    int height2=0;
+    if(tree==NULL){
+        return height;
+    }
+    while(tree!=NULL){
+        height++;
+        tree=tree->leftBST;
+    }
+    while(tree!=NULL){
+        height2++;
+        tree=tree->rightBST;
+    }
+    return height2>height? height2:height;
 }
 
 
@@ -61,7 +99,15 @@ int heightBST(BinarySearchTree tree) {
  * @return A pointer to the node containing the value, or NULL if the value is not in the tree.
  */
 BinarySearchTree searchBST(BinarySearchTree tree, int value) {
-    return NULL;
+    if (tree == NULL || tree->value == value) {
+        return tree;
+    }
+    if (value < tree->value) {
+        return searchBST(tree->leftBST, value);
+    }
+    else {
+        return searchBST(tree->rightBST, value);
+    }
 }
 
 
@@ -71,7 +117,42 @@ BinarySearchTree searchBST(BinarySearchTree tree, int value) {
  * @return A pointer to the root of the modified tree.
  */
 BinarySearchTree deleteRootBST(BinarySearchTree tree) {
-    return NULL;
+    if (tree == NULL) {
+        return NULL; // Tree is already empty
+    }
+
+    // Case 1: No child
+    if (tree->leftBST == NULL && tree->rightBST == NULL) {
+        free(tree);
+        return NULL;
+    }
+
+    // Case 2: One child
+    if (tree->leftBST == NULL) {
+        BinarySearchTree newRoot = tree->rightBST;
+        free(tree);
+        return newRoot;
+    } else if (tree->rightBST == NULL) {
+        BinarySearchTree newRoot = tree->leftBST;
+        free(tree);
+        return newRoot;
+    }
+
+    // Case 3: Two children
+    // Find the smallest node in the right subtree (or largest in left)
+    BinarySearchTree successor = tree->rightBST;
+    while (successor->leftBST != NULL) {
+        successor = successor->leftBST;
+    }
+
+    // Copy the successor's data to the root
+    tree->value = successor->value;
+
+    // Delete the successor node
+    tree->rightBST = deleteRootBST(tree->rightBST);
+
+    return tree;
+
 }
 
 
@@ -82,7 +163,35 @@ BinarySearchTree deleteRootBST(BinarySearchTree tree) {
  * @return A pointer to the root of the modified tree.
  */
 BinarySearchTree deleteFromBST(BinarySearchTree tree, int value) {
-    return NULL;
+    if (tree == NULL) {
+        return NULL; 
+    }
+    if (value < tree->value) {
+        tree->leftBST = deleteFromBST(tree->leftBST, value);
+    } else if (value > tree->value) {
+        tree->rightBST = deleteFromBST(tree->rightBST, value);
+    } else {
+    
+        if (tree->leftBST == NULL) {
+            BinarySearchTree temp = tree->rightBST;
+            free(tree);
+            return temp;
+        } else if (tree->rightBST == NULL) {
+            BinarySearchTree temp = tree->leftBST;
+            free(tree);
+            return temp;
+        }
+        BinarySearchTree successor = tree->rightBST;
+        while (successor->leftBST != NULL) {
+            successor = successor->leftBST;
+        }
+
+        
+        tree->value = successor->value;
+        tree->rightBST = deleteFromBST(tree->rightBST,value);
+    }
+
+    return tree;
 }
 
 /**
@@ -92,7 +201,40 @@ BinarySearchTree deleteFromBST(BinarySearchTree tree, int value) {
  * @return A binary such tree built by successively inserting the elements of permutation.
  */
 BinarySearchTree buildBSTFromPermutation(int *permutation,size_t n) {
-    return NULL;
+    BinarySearchTree root = NULL;
+
+    for (size_t i = 0; i < n; ++i) {
+        int value = permutation[i];
+        BinarySearchTree newNode = (BinarySearchTree)malloc(sizeof(NodeBST));
+        newNode->value = value;
+        newNode->leftBST = NULL;
+        newNode->rightBST = NULL;
+
+        if (root == NULL) {
+            root = newNode;
+        } else {
+            BinarySearchTree current = root;
+            BinarySearchTree parent = NULL;
+
+            while (current != NULL) {
+                parent = current;
+
+                if (value < current->value) {
+                    current = current->leftBST;
+                } else {
+                    current = current->rightBST;
+                }
+            }
+
+            if (value < parent->value) {
+                parent->leftBST = newNode;
+            } else {
+                parent->rightBST = newNode;
+            }
+        }
+    }
+
+    return root;
 }
 
 
