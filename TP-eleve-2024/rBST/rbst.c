@@ -23,8 +23,6 @@
  * @return A pointer to the root of the new empty tree (NULL pointer).
  */
 RBinarySearchTree createEmptyRBST(){
-    /*RBinarySearchTree newtree=malloc(sizeof(NodeRBST));
-    newtree->size=0;*/
     return NULL;
 }
 
@@ -32,13 +30,15 @@ RBinarySearchTree createEmptyRBST(){
  * @brief Free the memory of a binary search tree.
  * @param tree Pointer to the root of the tree.
  */
-void freeRBST(RBinarySearchTree tree){
-    if(tree->leftRBST==NULL && tree->rightRBST==NULL){
-        free(tree);
+void freeRBST(RBinarySearchTree tree) {
+    if (tree == NULL) {
         return;
     }
-    free(tree->leftRBST);
-    free(tree->rightRBST);
+
+    freeRBST(tree->leftRBST);
+    freeRBST(tree->rightRBST);
+
+    free(tree);
 }
 
 /**
@@ -139,23 +139,13 @@ RBinarySearchTree addToRBST(RBinarySearchTree tree, int value){
  * @return The height of the tree.
  */
 int heightRBST(RBinarySearchTree tree) {
-
-
-    int height=0;
-    int height2=0;
-    if(tree==NULL){
-        return height;
+    if (tree == NULL) {
+        return 0;
+    } else {
+        int leftHeight = heightRBST(tree->leftRBST);
+        int rightHeight = heightRBST(tree->rightRBST);
+        return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
     }
-    while(tree!=NULL){
-        height++;
-        tree=tree->leftRBST;
-    }
-    while(tree!=NULL){
-        height2++;
-        tree=tree->rightRBST;
-    }
-    return height2>height? height2:height;
-
 }
 
 /**
@@ -186,7 +176,7 @@ RBinarySearchTree searchRBST(RBinarySearchTree tree, int value){
  */
 RBinarySearchTree buildRBSTFromPermutation(int *permutation,size_t n) {
     
-     RBinarySearchTree root = NULL;
+    RBinarySearchTree root = NULL;
 
     for (size_t i = 0; i < n; ++i) {
         int value = permutation[i];
@@ -194,6 +184,7 @@ RBinarySearchTree buildRBSTFromPermutation(int *permutation,size_t n) {
         newNode->value = value;
         newNode->leftRBST = NULL;
         newNode->rightRBST = NULL;
+        newNode->size = 1;  
 
         if (root == NULL) {
             root = newNode;
@@ -203,6 +194,7 @@ RBinarySearchTree buildRBSTFromPermutation(int *permutation,size_t n) {
 
             while (current != NULL) {
                 parent = current;
+                parent->size++; 
 
                 if (value < current->value) {
                     current = current->leftRBST;
@@ -219,12 +211,8 @@ RBinarySearchTree buildRBSTFromPermutation(int *permutation,size_t n) {
         }
     }
 
-    root->size=n;
     return root;
-
 }
-
-
 /**
  * @brief Print the elements of a binary search tree in a pretty format.
  * @param tree Pointer to the root of the tree.

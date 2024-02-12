@@ -291,6 +291,6 @@ int main(void){
         srand(time(NULL));
         testRBst();
         compare_bst_rbst(1000, 1000);
-        //draw_graph_rbst(1000,10000,500,1000);
+        draw_graph_rbst(1000,10000,500,1000);
         return 0;
 }

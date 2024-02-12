@@ -29,17 +29,14 @@ BinarySearchTree createEmptyBST() {
  * @param tree Pointer to the root of the tree.
  */
 void freeBST(BinarySearchTree tree) {
-    if(tree==NULL){
+    if (tree == NULL) {
         return;
     }
-    if(tree->leftBST==NULL && tree->rightBST==NULL){
-        free(tree);
-        return;
-    }
+
     freeBST(tree->leftBST);
     freeBST(tree->rightBST);
-    
 
+    free(tree);
 }
 
 
@@ -75,20 +72,13 @@ BinarySearchTree addToBST(BinarySearchTree tree, int value) {
  * @return The height of the tree.
  */
 int heightBST(BinarySearchTree tree) {
-    int height=0;
-    int height2=0;
-    if(tree==NULL){
-        return height;
+    if (tree == NULL) {
+        return 0;
+    } else {
+        int leftHeight = heightBST(tree->leftBST);
+        int rightHeight = heightBST(tree->rightBST);
+        return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
     }
-    while(tree!=NULL){
-        height++;
-        tree=tree->leftBST;
-    }
-    while(tree!=NULL){
-        height2++;
-        tree=tree->rightBST;
-    }
-    return height2>height? height2:height;
 }
 
 
