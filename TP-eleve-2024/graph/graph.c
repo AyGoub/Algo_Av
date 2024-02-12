@@ -37,6 +37,7 @@ double distance(double x1, double y1, double x2, double y2){
  * Only the array of adjacency lists is updated.
  */
 void addEdgeInGraph(Graph graph, int origin, int destination) {
+    
     return;
 }
 
@@ -61,6 +62,7 @@ void addEdgeInGraph(Graph graph, int origin, int destination) {
  */
 Graph createGraph(int directed, int numVertices, double sigma) {
     Graph graph;
+
     return graph;
 }
 

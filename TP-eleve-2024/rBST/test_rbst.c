@@ -75,7 +75,7 @@ void testRBst(){
 
     // Split the RBST according to the value 4
     RBinarySearchTree inf, sup;
-    /*
+    
     splitRBST(tree, 4, &inf, &sup);
 
     printf("*************************\n");
@@ -89,7 +89,7 @@ void testRBst(){
     prettyPrintRBST(sup,4);
     printf("\n");
     printf("*************************\n");
-    */
+    
 
     int permutation[]={0,1,2,3,4,5,6,7,8,9};
     RBinarySearchTree tree2 = buildRBSTFromPermutation(permutation,10);

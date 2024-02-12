@@ -23,6 +23,8 @@
  * @return A pointer to the root of the new empty tree (NULL pointer).
  */
 RBinarySearchTree createEmptyRBST(){
+    /*RBinarySearchTree newtree=malloc(sizeof(NodeRBST));
+    newtree->size=0;*/
     return NULL;
 }
 
@@ -31,8 +33,12 @@ RBinarySearchTree createEmptyRBST(){
  * @param tree Pointer to the root of the tree.
  */
 void freeRBST(RBinarySearchTree tree){
-    
-    return;
+    if(tree->leftRBST==NULL && tree->rightRBST==NULL){
+        free(tree);
+        return;
+    }
+    free(tree->leftRBST);
+    free(tree->rightRBST);
 }
 
 /**
@@ -41,7 +47,10 @@ void freeRBST(RBinarySearchTree tree){
  * @return The number of nodes in the tree.
  */
 int sizeOfRBST(RBinarySearchTree tree) {
-    return -1;
+    if(tree==NULL)
+        return 0;
+    return tree->size;
+
 }
 
 /**
@@ -57,7 +66,20 @@ int sizeOfRBST(RBinarySearchTree tree) {
  * all the nodes of tree.
  */
 void splitRBST(RBinarySearchTree tree, int value, RBinarySearchTree* inf, RBinarySearchTree* sup) {
-    return;
+    if (tree == NULL) {
+        *inf = NULL;
+        *sup = NULL;
+        return;
+    }
+
+    if (tree->value < value) {
+        *inf = tree;
+        splitRBST(tree->rightRBST, value, &((*inf)->rightRBST), sup);
+    } else {
+        *sup = tree;
+        splitRBST(tree->leftRBST, value, inf, &((*sup)->leftRBST));
+    }
+    
 }
 
 /**
@@ -67,7 +89,20 @@ void splitRBST(RBinarySearchTree tree, int value, RBinarySearchTree* inf, RBinar
  * @return A pointer to the root of the modified tree.
  */
 RBinarySearchTree insertAtRoot(RBinarySearchTree tree, int value) {
-    return NULL;
+   
+    if (tree == NULL) {
+        RBinarySearchTree newtree=malloc(sizeof(NodeRBST));
+        newtree->size=1;
+        newtree->value=value;
+        newtree->leftRBST=NULL;
+        newtree->rightRBST=NULL;
+        return newtree;
+    }
+    RBinarySearchTree newtree=malloc(sizeof(NodeRBST));
+    newtree->value=value;
+    splitRBST(tree,value, &newtree->leftRBST,&newtree->rightRBST);
+    newtree->size = 1 + tree->size;
+    return newtree;
 }
 
 
@@ -78,7 +113,23 @@ RBinarySearchTree insertAtRoot(RBinarySearchTree tree, int value) {
  * @return A pointer to the root of the modified tree.
  */
 RBinarySearchTree addToRBST(RBinarySearchTree tree, int value){
-    return NULL;
+     if (tree == NULL) {
+        RBinarySearchTree newtree=malloc(sizeof(NodeRBST));
+        newtree->size=1;
+        newtree->value=value;
+        newtree->leftRBST=NULL;
+        newtree->rightRBST=NULL;
+        return newtree;
+    }
+
+    if (value < tree->value) {
+        tree->leftRBST = addToRBST(tree->leftRBST, value);
+    } else {
+        tree->rightRBST = addToRBST(tree->rightRBST, value);
+    }
+
+    tree->size +=1;
+    return tree;
 }
 
 
@@ -88,7 +139,23 @@ RBinarySearchTree addToRBST(RBinarySearchTree tree, int value){
  * @return The height of the tree.
  */
 int heightRBST(RBinarySearchTree tree) {
-    return -1;
+
+
+    int height=0;
+    int height2=0;
+    if(tree==NULL){
+        return height;
+    }
+    while(tree!=NULL){
+        height++;
+        tree=tree->leftRBST;
+    }
+    while(tree!=NULL){
+        height2++;
+        tree=tree->rightRBST;
+    }
+    return height2>height? height2:height;
+
 }
 
 /**
@@ -98,7 +165,16 @@ int heightRBST(RBinarySearchTree tree) {
  * @return A pointer to the node containing the value, or NULL if the value is not in the tree.
  */
 RBinarySearchTree searchRBST(RBinarySearchTree tree, int value){
-    return NULL;
+    if (tree == NULL || tree->value == value) {
+        return tree;
+    }
+    if (value < tree->value) {
+        return searchRBST(tree->leftRBST, value);
+    }
+    else {
+        return searchRBST(tree->rightRBST, value);
+    }
+
 }
 
 
@@ -109,7 +185,43 @@ RBinarySearchTree searchRBST(RBinarySearchTree tree, int value){
  * @return A random binary such tree built by successively inserting the elements of permutation.
  */
 RBinarySearchTree buildRBSTFromPermutation(int *permutation,size_t n) {
-    return NULL;
+    
+     RBinarySearchTree root = NULL;
+
+    for (size_t i = 0; i < n; ++i) {
+        int value = permutation[i];
+        RBinarySearchTree newNode = (RBinarySearchTree)malloc(sizeof(NodeRBST));
+        newNode->value = value;
+        newNode->leftRBST = NULL;
+        newNode->rightRBST = NULL;
+
+        if (root == NULL) {
+            root = newNode;
+        } else {
+            RBinarySearchTree current = root;
+            RBinarySearchTree parent = NULL;
+
+            while (current != NULL) {
+                parent = current;
+
+                if (value < current->value) {
+                    current = current->leftRBST;
+                } else {
+                    current = current->rightRBST;
+                }
+            }
+
+            if (value < parent->value) {
+                parent->leftRBST = newNode;
+            } else {
+                parent->rightRBST = newNode;
+            }
+        }
+    }
+
+    root->size=n;
+    return root;
+
 }
 
 
