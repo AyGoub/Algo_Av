@@ -10,7 +10,6 @@
  *
  */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -18,14 +17,12 @@
 
 #include "redBlackBST.h"
 
-
-
-
 /**
  * @brief Create an empty red-black binary search tree.
  * @return A pointer to the root of the new empty tree (NULL pointer).
  */
-RedBlackBST createEmptyRedBlackBST(){
+RedBlackBST createEmptyRedBlackBST()
+{
     return NULL;
 }
 
@@ -33,10 +30,14 @@ RedBlackBST createEmptyRedBlackBST(){
  * @brief Free the memory of a red-black binary search tree.
  * @param tree Pointer to the root of the tree.
  */
-void freeRedBlackBST(RedBlackBST tree){
-    return ;
+void freeRedBlackBST(RedBlackBST tree)
+{
+    if (tree == NULL)
+        return;
+    freeRedBlackBST(tree->leftBST);
+    freeRedBlackBST(tree->rightBST);
+    free(tree);
 }
-
 
 /**
  * @brief Perform a left rotation on the Red-Black BST.
@@ -44,7 +45,8 @@ void freeRedBlackBST(RedBlackBST tree){
  * @param node Pointer to the node to rotate around.
  * @return Pointer to the root node of the rotated Red-Black BST.
  */
-RedBlackBST leftRotationRedBlackBST(RedBlackBST tree, NodeRedBlackBST *node){
+RedBlackBST leftRotationRedBlackBST(RedBlackBST tree, NodeRedBlackBST *node)
+{
     NodeRedBlackBST *rightChild = node->rightBST;
     node->rightBST = rightChild->leftBST;
 
@@ -66,15 +68,13 @@ RedBlackBST leftRotationRedBlackBST(RedBlackBST tree, NodeRedBlackBST *node){
     return tree;
 }
 
-
-
-
 /**
  * @brief Perform a right rotation on the Red-Black BST.
  * @param tree Pointer to the root node of the Red-Black BST.
  * @param node Pointer to the node to rotate around.
  * @return Pointer to the root node of the rotated Red-Black BST.
  */
+
 RedBlackBST rightRotationRedBlackBST(RedBlackBST tree, NodeRedBlackBST *node)
 {
     NodeRedBlackBST *leftChild = node->leftBST;
@@ -98,7 +98,6 @@ RedBlackBST rightRotationRedBlackBST(RedBlackBST tree, NodeRedBlackBST *node)
     return tree;
 }
 
-
 /**
  * @brief Balance the Red-Black BST after inserting (or crating) a red node.
  * @param tree Pointer to the root node of the Red-Black BST. Be careful, the root may change after balancing.
@@ -113,9 +112,10 @@ RedBlackBST rightRotationRedBlackBST(RedBlackBST tree, NodeRedBlackBST *node)
  */
 void balanceRedBlackBST(RedBlackBST *tree, NodeRedBlackBST *curr)
 {
-    return ;
+    insertNodeRedBlackBST(&tree, curr->value);
+    tree = rightRotationRedBlackBST(tree, curr);
+    tree = leftRotationRedBlackBST(tree, curr);
 }
-
 
 /**
  * @brief Insert a node in the Red-Black BST.
@@ -126,19 +126,43 @@ void balanceRedBlackBST(RedBlackBST *tree, NodeRedBlackBST *curr)
  */
 void insertNodeRedBlackBST(RedBlackBST *tree, int value)
 {
-    return;
+    RedBlackBST newNode = malloc(sizeof(NodeRedBlackBST));
+    newNode->color = 1;
+    newNode->value = value;
+    newNode->leftBST = NULL;
+    newNode->rightBST = NULL;
+
+    RedBlackBST parent = NULL;
+    RedBlackBST current = *tree;
+
+    while (current != NULL)
+    {
+        parent = current;
+        if (value < current->value)
+            current = current->leftBST;
+        else
+            current = current->rightBST;
+    }
+
+    newNode->father = parent;
+
+    if (parent == NULL)
+        *tree = newNode;
+    else if (value < parent->value)
+        parent->leftBST = newNode;
+    else
+        parent->rightBST = newNode;
 }
-
-
-
 
 /**
  * @brief Compute the height of a red-black binary search tree.
  * @param tree Pointer to the root of the tree.
  * @return The height of the tree.
  */
-int heightRedBlackBST(RedBlackBST tree){
-    if (tree == NULL) {
+int heightRedBlackBST(RedBlackBST tree)
+{
+    if (tree == NULL)
+    {
         return -1; // height of an empty tree is -1
     }
     int leftHeight = heightRedBlackBST(tree->leftBST);
@@ -149,14 +173,14 @@ int heightRedBlackBST(RedBlackBST tree){
         return rightHeight + 1;
 }
 
-
 /**
  * @brief Search for a value in a red-black binary search tree.
  * @param tree Pointer to the root of the tree.
  * @param value The value to search for.
  * @return A pointer to the node containing the value, or NULL if the value is not in the tree.
  */
-RedBlackBST searchRedBlackBST(RedBlackBST tree, int value){
+RedBlackBST searchRedBlackBST(RedBlackBST tree, int value)
+{
     if (tree == NULL)
         return NULL; // value not in the tree
     else if (value < tree->value)
@@ -167,38 +191,38 @@ RedBlackBST searchRedBlackBST(RedBlackBST tree, int value){
         return tree; // value found in the tree
 }
 
-
 /**
-* @brief Computes the black height of a red-black tree (counts also the root if it is black).
-* @param node Pointer to the root node of the tree.
-* @return The black height of the tree.
-*
-* It returns 1 plus the black height of the tree if the root is black or the black heiht with a red root.
-* It returns -1 if the black height of the left and right subtrees of the root are different
-* or equal to -1.
-*
-*/
+ * @brief Computes the black height of a red-black tree (counts also the root if it is black).
+ * @param node Pointer to the root node of the tree.
+ * @return The black height of the tree.
+ *
+ * It returns 1 plus the black height of the tree if the root is black or the black heiht with a red root.
+ * It returns -1 if the black height of the left and right subtrees of the root are different
+ * or equal to -1.
+ *
+ */
 
-int blackHeightRedBlackBST(RedBlackBST tree) {
-  if (!tree) {
-    return 1; // If the tree is empty, then the black height is 1.
-  }
-  int leftHeight = blackHeightRedBlackBST(tree->leftBST); // Recursively compute the black height of the left subtree.
-  int rightHeight = blackHeightRedBlackBST(tree->rightBST); // Recursively compute the black height of the right subtree.
+int blackHeightRedBlackBST(RedBlackBST tree)
+{
+    if (!tree)
+    {
+        return 1; // If the tree is empty, then the black height is 1.
+    }
+    int leftHeight = blackHeightRedBlackBST(tree->leftBST);   // Recursively compute the black height of the left subtree.
+    int rightHeight = blackHeightRedBlackBST(tree->rightBST); // Recursively compute the black height of the right subtree.
 
-  if(leftHeight!=rightHeight) // the black height of the left and right subtrees must be equal
-    return -1;
-  if(leftHeight==-1)
-    return -1;
+    if (leftHeight != rightHeight) // the black height of the left and right subtrees must be equal
+        return -1;
+    if (leftHeight == -1)
+        return -1;
 
-  // If the left and right subtrees have the same black height and the root node is black, then the black height of the tree is increased by 1.
-  if (tree->color == BLACK) {
-    return leftHeight + 1;
-  }
-  return leftHeight;
+    // If the left and right subtrees have the same black height and the root node is black, then the black height of the tree is increased by 1.
+    if (tree->color == BLACK)
+    {
+        return leftHeight + 1;
+    }
+    return leftHeight;
 }
-
-
 
 /**
  * @brief Test if a Red-Black BST is a valid Red-Black BST.
@@ -208,9 +232,32 @@ int blackHeightRedBlackBST(RedBlackBST tree) {
 int isRedBlackBST(RedBlackBST tree)
 {
 
+    if (tree == NULL)
+        return 1;
+
+    if (tree->color == 1)
+        return 0;
+    else
+    {
+        if ((tree->leftBST->color == 0 && tree->leftBST->leftBST->color) || (tree->leftBST->color == 0 && tree->leftBST->rightBST->color == 0))
+        {
+            return 0;
+        }
+        else
+        {
+            isRedBlackBST(tree->leftBST);
+        }
+        if ((tree->rightBST->color == 0 && tree->rightBST->leftBST->color) || (tree->rightBST->color == 0 && tree->leftBST->leftBST->color == 0))
+        {
+            return 0;
+        }
+        else
+        {
+            isRedBlackBST(tree->rightBST);
+        }
+    }
     return 0;
 }
-
 
 /**
  * @brief Build a red-black binary search tree from a given permutation.
@@ -218,24 +265,27 @@ int isRedBlackBST(RedBlackBST tree)
  * @param n size of the array
  * @return A red-black binary search tree built by successively inserting the elements of permutation.
  */
-RedBlackBST buildRedBlackBSTFromPermutation(int *permutation,size_t n){
+RedBlackBST buildRedBlackBSTFromPermutation(int *permutation, size_t n)
+{
     if (n == 0)
         return NULL;
     RedBlackBST tree = createEmptyRedBlackBST();
-    for(int i=0;i<n;i++){
+    for (int i = 0; i < n; i++)
+    {
         insertNodeRedBlackBST(&tree, permutation[i]);
     }
     return tree;
 }
-
 
 /**
  * @brief Print the elements of a binary search tree in a pretty format.
  * @param tree Pointer to the root of the tree.
  * @param space Space to be printed before the current element.
  */
-void prettyPrintRedBlackBST(RedBlackBST tree, int space) {
-    if (tree == NULL) {
+void prettyPrintRedBlackBST(RedBlackBST tree, int space)
+{
+    if (tree == NULL)
+    {
         return;
     }
     space += 10;
@@ -243,11 +293,12 @@ void prettyPrintRedBlackBST(RedBlackBST tree, int space) {
     prettyPrintRedBlackBST(tree->rightBST, space);
 
     printf("\n");
-    for (int i = 10; i < space; i++) {
+    for (int i = 10; i < space; i++)
+    {
         printf(" ");
     }
     printf("[%d,%d]\n", tree->value, tree->color);
 
     prettyPrintRedBlackBST(tree->leftBST, space);
-    return ;
+    return;
 }

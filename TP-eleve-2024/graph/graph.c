@@ -31,13 +31,14 @@ double distance(double x1, double y1, double x2, double y2){
  * @brief Function to add an oriented edge in a graph.
  *
  * @param origin Origin vertex  of the edge.
- * @param destination Destination vrtex of the edge.
+ * @param destination Destination vertex of the edge.
  * @param graph The graph in which the edge is added.
  *
  * Only the array of adjacency lists is updated.
  */
 void addEdgeInGraph(Graph graph, int origin, int destination) {
-    
+    graph.array[origin]=addKeyValueInList(graph.array[origin],destination,destination);
+
     return;
 }
 
@@ -62,10 +63,58 @@ void addEdgeInGraph(Graph graph, int origin, int destination) {
  */
 Graph createGraph(int directed, int numVertices, double sigma) {
     Graph graph;
+    graph.numberVertices=numVertices;
+    graph.sigma=sigma;
 
+    graph.array = (List*)malloc(numVertices * sizeof(List));
+    graph.parents = (int*)malloc(numVertices * sizeof(int));
+    graph.xCoordinates = (double*)malloc(numVertices * sizeof(double));
+    graph.yCoordinates = (double*)malloc(numVertices * sizeof(double));
+
+    for(int i=0;i<numVertices;i++) {
+        graph.parents[i]=-1;
+        graph.array[i]=newList();
+        graph.xCoordinates[i]=((double)rand())/(double)RAND_MAX;
+        graph.yCoordinates[i]=((double)rand())/(double)RAND_MAX;
+    }
+
+    for (int j=0;j<numVertices;j++) {
+        for (int k=0;k<numVertices;k++) {
+            if(directed){
+                if (j!=k && graph.yCoordinates[j]<graph.yCoordinates[k] && distance(graph.xCoordinates[j],graph.yCoordinates[j],graph.xCoordinates[k],graph.yCoordinates[k])<=sigma) {
+                    addEdgeInGraph(graph,j,k);
+                }
+            }
+            else {
+                if (j!=k && distance(graph.xCoordinates[j],graph.yCoordinates[j],graph.xCoordinates[k],graph.yCoordinates[k])<=sigma) {
+                    addEdgeInGraph(graph,j,k);
+                }
+            }
+        }
+    }
     return graph;
 }
-
+/**
+ * @brief prints the adjacency list of a vertex.
+ * @param list The list to print.
+ * @return void
+*/
+void printAdjList(List list) {
+    Cell* current = list;
+    if (current == NULL) {
+        printf("NULL");
+    }
+    while (current != NULL) {
+        printf("%d", current->value);
+        if (current->nextCell != NULL) {
+            printf(" -> ");
+        } else {
+            printf(" -> NULL");
+        }
+        current = current->nextCell;
+    }
+    printf("\n");
+}
 
 /**
  * @brief Function to print the graph in the console.
@@ -73,6 +122,24 @@ Graph createGraph(int directed, int numVertices, double sigma) {
  * @param graph The graph to print.
  */
 void printConsoleGraph(Graph graph){
+    printf("-------------------------\n");
+    printf("Print of the graph\n");
+    printf("Number of vertices : %d\n",graph.numberVertices);
+    printf("Sigma : %lf\n",graph.sigma);
+    printf("Coordinates of the vertices\n");
+    for(int i=0;i<graph.numberVertices;i++){
+        printf("Vertex %d : (%lf,%lf)\n",i,graph.xCoordinates[i],graph.yCoordinates[i]);
+    }
+    printf("Adjacency lists\n");
+    for(int i=0;i<graph.numberVertices;i++){
+        printf("Vertex %d : ",i);
+        printAdjList(graph.array[i]);
+    }
+    printf("Parents: ");
+    for (int i=0;i<graph.numberVertices;i++){
+        printf("%d ",graph.parents[i]);
+    }
+    printf("-------------------------\n");
     return;
 }
 
@@ -188,7 +255,40 @@ void drawGraph(Graph graph, char* filename, int type, int directed){
  * must be initialized before calling the function.
  */
 
+
 void graphDFS(Graph graph, int vertex) {
+    int* visited = (int*)malloc((size_t)graph.numberVertices * sizeof(int));
+    for(int i = 0; i < graph.numberVertices; i++) {
+        visited[i] = 0;
+    }
+
+    Stack* stack = createStack();
+
+    visited[vertex] = 1;
+    push(stack, vertex);
+
+    while(!isStackEmpty(*stack)) {
+        int current=peek(*stack);
+        List temp = graph.array[current];
+        int flag = 0;
+        while (temp != NULL) {
+            if(visited[temp->value]==0) {
+                flag = 1;
+                break;
+            }
+            temp = temp->nextCell;
+        }
+        if(flag) {
+            visited[temp->value] = 1;
+            graph.parents[temp->value] = current;
+            push(stack, temp->value);
+        }
+        else {
+            int u=pop(stack);
+        }
+    }
+
+    free(visited);
     return;
 }
 
@@ -205,12 +305,35 @@ void graphDFS(Graph graph, int vertex) {
  * must be initialized before calling the function.
  */
 void graphBFS(Graph graph, int vertex){
+    int* visited = (int*)malloc(graph.numberVertices * sizeof(int));
+    for(int i = 0; i < graph.numberVertices; i++) {
+        visited[i] = 0;
+    }
+    Queue* queue = createQueue();
+    enqueue(queue, vertex);
+    visited[vertex] = 1;
+
+    while (!isQueueEmpty(*queue)) {
+        int current = dequeue(queue);
+        visited[current] = 2;
+        List temp = graph.array[current];
+        while (temp != NULL) {
+            if (visited[temp->value]==0) {
+                enqueue(queue, temp->value);
+                visited[temp->value] = 1;
+                graph.parents[temp->value] = current;
+
+            }
+            temp = temp->nextCell;
+        }
+    }
+    free(visited);
     return;
 }
 
 
 /**
- * @brief Function that counts te number of connex components in a graph and that computes a covering forest (one tree by components)
+ * @brief Function that counts the number of connex components in a graph and that computes a covering forest (one tree by components)
  *
  * @param graph The graph
  *
@@ -218,8 +341,22 @@ void graphBFS(Graph graph, int vertex){
  * computed by the breadth first search.
  * Note that the array parents is initialized in the function.
  */
-int numberOfComponents(Graph graph){
-    return -1;
+int numberOfComponents(Graph graph) {
+    int* visited=(int*)malloc((size_t)graph.numberVertices * sizeof(int));
+    for(int i=0;i<graph.numberVertices;i++) {
+        visited[i] = 0;
+        graph.parents[i] = -1;
+    }
 
+    int components = 0;
+    for(int i=0;i<graph.numberVertices;i++) {
+        if(visited[i]==0) {
+            components++;
+            graphBFS(graph, i);
+        }
+    }
+
+
+    free(visited);
+    return components;
 }
-

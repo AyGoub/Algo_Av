@@ -271,6 +271,6 @@ int main(void){
         srand(time(NULL));
         testRedBlackBST();
         //compare_data_structures(5000, 1000);
-        draw_graph_trees(1000,10000,500,1000);
+        //draw_graph_trees(1000,10000,500,1000);
         return 0;
 }

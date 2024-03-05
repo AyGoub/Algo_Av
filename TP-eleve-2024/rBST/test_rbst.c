@@ -290,7 +290,7 @@ void draw_graph_rbst(int begin_size, int end_size, int step_size, int nbTests){
 int main(void){
         srand(time(NULL));
         testRBst();
-        compare_bst_rbst(1000, 1000);
-        draw_graph_rbst(1000,10000,500,1000);
+        //compare_bst_rbst(1000, 1000);
+        //draw_graph_rbst(1000,10000,500,1000);
         return 0;
 }
