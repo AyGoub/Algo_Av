@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 gcc -o ../../heap/heap.o -c ../../heap/heap.c -W -Wall -g 2> out.txt
 gcc -o vg_exec.o -c vg_exec.c -W -Wall -g 2>> out.txt
 gcc -o vg_exec vg_exec.o ../../heap/heap.o -W -Wall -g 2>> out.txt

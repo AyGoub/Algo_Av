@@ -11,10 +11,11 @@ $(EXEC): ../../list/list.h
 ../../list.o: ../../list/list.h
 
 $(EXEC): $(OBJ)
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(CC) -o $@ $(filter-out ../../list/list.h,$^) $(LDFLAGS)
+
 
 %.o: %.c
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 .PHONY: clean
 
@@ -27,8 +28,3 @@ clean:
 	rm -f out.txt
 	rm -f output.txt
 	rm -f score.log
-
-
-
-
-

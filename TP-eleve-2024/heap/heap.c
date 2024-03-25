@@ -80,7 +80,7 @@ int getElement(Heap h) {
     }
     double min= DBL_MAX;
     int index = -1;
-    for (int i=0;i<h.n;i++) {
+    for (int i=0;i<h.nbElements;i++) {
         if (h.priority[i]<min && h.priority[i]!=-1) {
             min = h.priority[i];
             index = i;

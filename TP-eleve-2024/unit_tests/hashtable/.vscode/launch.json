@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/macbookair/Desktop/Algo_Av/TP-eleve-2024/unit_tests/hashtable",
+      "program": "/Users/macbookair/Desktop/Algo_Av/TP-eleve-2024/unit_tests/hashtable/build/Debug/outDebug"
+    }
+  ]
+}

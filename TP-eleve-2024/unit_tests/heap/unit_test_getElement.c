@@ -30,13 +30,12 @@ int test_getElement_results(){
 
     // Getting the element with the highest priority
     int element = getElement(heap);
-
     // Testing the result
     if (element == 0) {
         printf("Test Case Passed: Correct element with highest priority returned!\n");
         score++;
     } else {
-        printf("Test Case Failed: Incorrect element returned!\n");
+        printf("Test Case Failed: Incorrect element %d returned!\n",element);
     }
     free(heap.position);
     heap.position = NULL;
