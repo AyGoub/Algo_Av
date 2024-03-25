@@ -70,6 +70,9 @@ Graph createGraph(int directed, int numVertices, double sigma) {
     graph.parents = (int*)malloc(numVertices * sizeof(int));
     graph.xCoordinates = (double*)malloc(numVertices * sizeof(double));
     graph.yCoordinates = (double*)malloc(numVertices * sizeof(double));
+    graph.topological_ordering = (int*)malloc(numVertices * sizeof(int));
+    graph.earliest_start = (double*)malloc(numVertices * sizeof(double));
+    graph.latest_start = (double*)malloc(numVertices * sizeof(double));
 
     for(int i=0;i<numVertices;i++) {
         graph.parents[i]=-1;
@@ -139,7 +142,18 @@ void printConsoleGraph(Graph graph){
     for (int i=0;i<graph.numberVertices;i++){
         printf("%d ",graph.parents[i]);
     }
+    printf("\n");
     printf("-------------------------\n");
+    printf("Topological ordering: \n");
+    printf("[");
+    for (int i=0;i<graph.numberVertices;i++){
+        printf("%d ",graph.topological_ordering[i]);
+    }
+    printf("]\n");
+    printf("Print start dates: \n");
+    for(int i=0;i<graph.numberVertices;i++){
+        printf("Vertex %d : [earliest start date=%.3lf, latest start date=%.3lf ]\n  ",i,graph.earliest_start[i],graph.latest_start[i]);
+    }
     return;
 }
 
@@ -179,6 +193,7 @@ void drawGraph(Graph graph, char* filename, int type, int directed){
         int x1 = (int) (600*graph.xCoordinates[i])+100;
         int y1 = (int) (600*graph.yCoordinates[i])+100;
         fprintf(fptr, "<circle cx=\"%d\" cy=\"%d\" r=\"%d\" fill=\"blue\" />\n", x1, y1, 3);
+        fprintf(fptr, "<text x=\"%d\" y=\"%d\" font-family=\"Verdana\" font-size=\"10\">P%d:[%d;%.3lf;%.3lf]</text>\n", x1+10, y1, i,graph.topological_ordering[i],graph.earliest_start[i],graph.latest_start[i],graph.earliest_start[i],graph.latest_start[i]);
     }
 
 

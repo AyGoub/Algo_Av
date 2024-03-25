@@ -3,22 +3,11 @@
   "configurations": [
     {
       "name": "C/C++ Runner: Debug Session",
-      "type": "cppdbg",
+      "type": "lldb",
       "request": "launch",
       "args": [],
-      "stopAtEntry": false,
-      "externalConsole": true,
-      "cwd": "c:/Users/Ayoub/Desktop/vs/Algo_Av/Algo_Av/TP-eleve-2024/rBST",
-      "program": "c:/Users/Ayoub/Desktop/vs/Algo_Av/Algo_Av/TP-eleve-2024/rBST/build/Debug/outDebug",
-      "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ]
+      "cwd": "/Users/macbookair/Desktop/Algo_Av/TP-eleve-2024/unit_tests/heap",
+      "program": "/Users/macbookair/Desktop/Algo_Av/TP-eleve-2024/unit_tests/heap/build/Debug/outDebug"
     }
   ]
 }

@@ -15,27 +15,27 @@ int main() {
     //printConsoleGraph(graph);
 
     // Draw the graph to a file
-    //drawGraph(graph, "graph.svg",0,1);
+    drawGraph(graph, "graph.svg",0,1);
 
     //topological ordering
-    /*
+    
     topologicalSort(graph);
-    printConsoleGraph(graph);
-    drawGraph(graph, "topo.svg",1);
-    */
+    //printConsoleGraph(graph);
+    drawGraph(graph, "topo.svg",1,1);
+    
 
     //topological ordering+earlyest dates
-    /*
+    
     computeEarliestStartDates(graph);
-    printConsoleGraph(graph);
-    drawGraph(graph, "dates.svg",2);
-    */
+    //printConsoleGraph(graph);
+    drawGraph(graph, "dates.svg",2,1);
+    
 
     //topological ordering+earlyest dates+latest dates
-    /*
+    
     computeLatestStartDates(graph);
     printConsoleGraph(graph);
-    drawGraph(graph, "dates.svg",3,1);
-    */
+    drawGraph(graph, "dates.svg",0,1);
+    
     return 0;
 }

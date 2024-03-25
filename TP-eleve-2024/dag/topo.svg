@@ -1,0 +1,75 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="800" height="800"
+     xmlns="http://www.w3.org/2000/svg" version="1.1">
+<rect x="0" y="0" width="100%" height="100%" fill="white" />
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto">
+<path d="M0,0 L0,6 L9,3 z"/>
+</marker>
+</defs>
+<circle cx="191" cy="432" r="3" fill="blue" />
+<text x="201" y="432" font-family="Verdana" font-size="10">P0:[10;0.000;0.000]</text>
+<circle cx="500" cy="529" r="3" fill="blue" />
+<text x="510" y="529" font-family="Verdana" font-size="10">P1:[9;0.000;0.000]</text>
+<circle cx="639" cy="314" r="3" fill="blue" />
+<text x="649" y="314" font-family="Verdana" font-size="10">P2:[5;0.000;0.000]</text>
+<circle cx="377" cy="530" r="3" fill="blue" />
+<text x="387" y="530" font-family="Verdana" font-size="10">P3:[8;0.000;0.000]</text>
+<circle cx="517" cy="491" r="3" fill="blue" />
+<text x="527" y="491" font-family="Verdana" font-size="10">P4:[14;0.000;0.000]</text>
+<circle cx="249" cy="176" r="3" fill="blue" />
+<text x="259" y="176" font-family="Verdana" font-size="10">P5:[2;0.000;0.000]</text>
+<circle cx="569" cy="439" r="3" fill="blue" />
+<text x="579" y="439" font-family="Verdana" font-size="10">P6:[13;0.000;0.000]</text>
+<circle cx="486" cy="474" r="3" fill="blue" />
+<text x="496" y="474" font-family="Verdana" font-size="10">P7:[6;0.000;0.000]</text>
+<circle cx="126" cy="211" r="3" fill="blue" />
+<text x="136" y="211" font-family="Verdana" font-size="10">P8:[7;0.000;0.000]</text>
+<circle cx="472" cy="119" r="3" fill="blue" />
+<text x="482" y="119" font-family="Verdana" font-size="10">P9:[4;0.000;0.000]</text>
+<circle cx="240" cy="125" r="3" fill="blue" />
+<text x="250" y="125" font-family="Verdana" font-size="10">P10:[1;0.000;0.000]</text>
+<circle cx="535" cy="596" r="3" fill="blue" />
+<text x="545" y="596" font-family="Verdana" font-size="10">P11:[3;0.000;0.000]</text>
+<circle cx="173" cy="567" r="3" fill="blue" />
+<text x="183" y="567" font-family="Verdana" font-size="10">P12:[11;0.000;0.000]</text>
+<circle cx="501" cy="373" r="3" fill="blue" />
+<text x="511" y="373" font-family="Verdana" font-size="10">P13:[0;0.000;0.000]</text>
+<circle cx="165" cy="363" r="3" fill="blue" />
+<text x="175" y="363" font-family="Verdana" font-size="10">P14:[12;0.000;0.000]</text>
+<circle cx="191" cy="432" r="3" fill="blue" />
+<line x1="191" y1="432" x2="173" y2="567"
+      style="stroke: red;" marker-end="url(#arrow)" />
+<circle cx="500" cy="529" r="3" fill="blue" />
+<line x1="500" y1="529" x2="377" y2="530"
+      style="stroke: red;" marker-end="url(#arrow)" />
+<line x1="500" y1="529" x2="535" y2="596"
+      style="stroke: red;" marker-end="url(#arrow)" />
+<circle cx="639" cy="314" r="3" fill="blue" />
+<line x1="639" y1="314" x2="501" y2="373"
+      style="stroke: red;" marker-end="url(#arrow)" />
+<circle cx="377" cy="530" r="3" fill="blue" />
+<circle cx="517" cy="491" r="3" fill="blue" />
+<line x1="486" y1="474" x2="517" y2="491"
+      style="stroke: red;" marker-end="url(#arrow)" />
+<circle cx="249" cy="176" r="3" fill="blue" />
+<line x1="249" y1="176" x2="126" y2="211"
+      style="stroke: red;" marker-end="url(#arrow)" />
+<circle cx="569" cy="439" r="3" fill="blue" />
+<line x1="501" y1="373" x2="569" y2="439"
+      style="stroke: red;" marker-end="url(#arrow)" />
+<circle cx="486" cy="474" r="3" fill="blue" />
+<line x1="501" y1="373" x2="486" y2="474"
+      style="stroke: red;" marker-end="url(#arrow)" />
+<circle cx="126" cy="211" r="3" fill="blue" />
+<line x1="126" y1="211" x2="165" y2="363"
+      style="stroke: red;" marker-end="url(#arrow)" />
+<circle cx="472" cy="119" r="3" fill="blue" />
+<circle cx="240" cy="125" r="3" fill="blue" />
+<circle cx="535" cy="596" r="3" fill="blue" />
+<circle cx="173" cy="567" r="3" fill="blue" />
+<circle cx="501" cy="373" r="3" fill="blue" />
+<circle cx="165" cy="363" r="3" fill="blue" />
+</svg>
