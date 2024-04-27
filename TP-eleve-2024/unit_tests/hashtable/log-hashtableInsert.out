@@ -1,0 +1,188 @@
+==8435== Memcheck, a memory error detector
+==8435== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==8435== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==8435== Command: ./vg_exec hashtableInsert
+==8435== Parent PID: 8420
+==8435== 
+==8435== 
+==8435== HEAP SUMMARY:
+==8435==     in use at exit: 6,076 bytes in 329 blocks
+==8435==   total heap usage: 716 allocs, 387 frees, 18,693 bytes allocated
+==8435== 
+==8435== 38 (8 direct, 30 indirect) bytes in 1 blocks are definitely lost in loss record 1 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10C91F: hashtableCreate (hashtable.c:119)
+==8435==    by 0x10B0F7: test_hashtableInsert_known_result1 (unit_test_hashtableInsert.c:71)
+==8435==    by 0x10B6F5: test_hashtableInsert_results (unit_test_hashtableInsert.c:152)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 38 (8 direct, 30 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10C91F: hashtableCreate (hashtable.c:119)
+==8435==    by 0x10B239: test_hashtableInsert_known_result2 (unit_test_hashtableInsert.c:94)
+==8435==    by 0x10B702: test_hashtableInsert_results (unit_test_hashtableInsert.c:153)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 39 (8 direct, 31 indirect) bytes in 1 blocks are definitely lost in loss record 3 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10C91F: hashtableCreate (hashtable.c:119)
+==8435==    by 0x10B529: test_hashtableInsert_random_result (unit_test_hashtableInsert.c:126)
+==8435==    by 0x10B70F: test_hashtableInsert_results (unit_test_hashtableInsert.c:154)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 42 bytes in 7 blocks are indirectly lost in loss record 4 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x491458E: strdup (strdup.c:42)
+==8435==    by 0x10D45E: addKeyValueInList (list.c:151)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CBC5: hashtableDoubleSize (hashtable.c:211)
+==8435==    by 0x10CC8F: hashtableInsert (hashtable.c:240)
+==8435==    by 0x10B140: test_hashtableInsert_known_result1 (unit_test_hashtableInsert.c:76)
+==8435==    by 0x10B6F5: test_hashtableInsert_results (unit_test_hashtableInsert.c:152)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 42 bytes in 7 blocks are indirectly lost in loss record 5 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x491458E: strdup (strdup.c:42)
+==8435==    by 0x10D45E: addKeyValueInList (list.c:151)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CBC5: hashtableDoubleSize (hashtable.c:211)
+==8435==    by 0x10CC8F: hashtableInsert (hashtable.c:240)
+==8435==    by 0x10B282: test_hashtableInsert_known_result2 (unit_test_hashtableInsert.c:99)
+==8435==    by 0x10B702: test_hashtableInsert_results (unit_test_hashtableInsert.c:153)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 48 bytes in 8 blocks are indirectly lost in loss record 6 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x491458E: strdup (strdup.c:42)
+==8435==    by 0x10D45E: addKeyValueInList (list.c:151)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CCC0: hashtableInsert (hashtable.c:242)
+==8435==    by 0x10B140: test_hashtableInsert_known_result1 (unit_test_hashtableInsert.c:76)
+==8435==    by 0x10B6F5: test_hashtableInsert_results (unit_test_hashtableInsert.c:152)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 48 bytes in 8 blocks are indirectly lost in loss record 7 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x491458E: strdup (strdup.c:42)
+==8435==    by 0x10D45E: addKeyValueInList (list.c:151)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CCC0: hashtableInsert (hashtable.c:242)
+==8435==    by 0x10B282: test_hashtableInsert_known_result2 (unit_test_hashtableInsert.c:99)
+==8435==    by 0x10B702: test_hashtableInsert_results (unit_test_hashtableInsert.c:153)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 168 bytes in 7 blocks are indirectly lost in loss record 8 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10D43A: addKeyValueInList (list.c:147)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CBC5: hashtableDoubleSize (hashtable.c:211)
+==8435==    by 0x10CC8F: hashtableInsert (hashtable.c:240)
+==8435==    by 0x10B140: test_hashtableInsert_known_result1 (unit_test_hashtableInsert.c:76)
+==8435==    by 0x10B6F5: test_hashtableInsert_results (unit_test_hashtableInsert.c:152)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 168 bytes in 7 blocks are indirectly lost in loss record 9 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10D43A: addKeyValueInList (list.c:147)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CBC5: hashtableDoubleSize (hashtable.c:211)
+==8435==    by 0x10CC8F: hashtableInsert (hashtable.c:240)
+==8435==    by 0x10B282: test_hashtableInsert_known_result2 (unit_test_hashtableInsert.c:99)
+==8435==    by 0x10B702: test_hashtableInsert_results (unit_test_hashtableInsert.c:153)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 192 bytes in 8 blocks are indirectly lost in loss record 10 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10D43A: addKeyValueInList (list.c:147)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CCC0: hashtableInsert (hashtable.c:242)
+==8435==    by 0x10B140: test_hashtableInsert_known_result1 (unit_test_hashtableInsert.c:76)
+==8435==    by 0x10B6F5: test_hashtableInsert_results (unit_test_hashtableInsert.c:152)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 192 bytes in 8 blocks are indirectly lost in loss record 11 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10D43A: addKeyValueInList (list.c:147)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CCC0: hashtableInsert (hashtable.c:242)
+==8435==    by 0x10B282: test_hashtableInsert_known_result2 (unit_test_hashtableInsert.c:99)
+==8435==    by 0x10B702: test_hashtableInsert_results (unit_test_hashtableInsert.c:153)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 431 bytes in 63 blocks are indirectly lost in loss record 12 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x491458E: strdup (strdup.c:42)
+==8435==    by 0x10D45E: addKeyValueInList (list.c:151)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CBC5: hashtableDoubleSize (hashtable.c:211)
+==8435==    by 0x10CC8F: hashtableInsert (hashtable.c:240)
+==8435==    by 0x10B5EA: test_hashtableInsert_random_result (unit_test_hashtableInsert.c:135)
+==8435==    by 0x10B70F: test_hashtableInsert_results (unit_test_hashtableInsert.c:154)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 441 bytes in 64 blocks are indirectly lost in loss record 13 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x491458E: strdup (strdup.c:42)
+==8435==    by 0x10D45E: addKeyValueInList (list.c:151)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CCC0: hashtableInsert (hashtable.c:242)
+==8435==    by 0x10B5EA: test_hashtableInsert_random_result (unit_test_hashtableInsert.c:135)
+==8435==    by 0x10B70F: test_hashtableInsert_results (unit_test_hashtableInsert.c:154)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 532 (112 direct, 420 indirect) bytes in 3 blocks are definitely lost in loss record 14 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10C91F: hashtableCreate (hashtable.c:119)
+==8435==    by 0x10CB03: hashtableDoubleSize (hashtable.c:195)
+==8435==    by 0x10CC8F: hashtableInsert (hashtable.c:240)
+==8435==    by 0x10B140: test_hashtableInsert_known_result1 (unit_test_hashtableInsert.c:76)
+==8435==    by 0x10B6F5: test_hashtableInsert_results (unit_test_hashtableInsert.c:152)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 532 (112 direct, 420 indirect) bytes in 3 blocks are definitely lost in loss record 15 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10C91F: hashtableCreate (hashtable.c:119)
+==8435==    by 0x10CB03: hashtableDoubleSize (hashtable.c:195)
+==8435==    by 0x10CC8F: hashtableInsert (hashtable.c:240)
+==8435==    by 0x10B282: test_hashtableInsert_known_result2 (unit_test_hashtableInsert.c:99)
+==8435==    by 0x10B702: test_hashtableInsert_results (unit_test_hashtableInsert.c:153)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 1,512 bytes in 63 blocks are indirectly lost in loss record 16 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10D43A: addKeyValueInList (list.c:147)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CBC5: hashtableDoubleSize (hashtable.c:211)
+==8435==    by 0x10CC8F: hashtableInsert (hashtable.c:240)
+==8435==    by 0x10B5EA: test_hashtableInsert_random_result (unit_test_hashtableInsert.c:135)
+==8435==    by 0x10B70F: test_hashtableInsert_results (unit_test_hashtableInsert.c:154)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 1,536 bytes in 64 blocks are indirectly lost in loss record 17 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10D43A: addKeyValueInList (list.c:147)
+==8435==    by 0x10CA2F: hashtableInsertWithoutResizing (hashtable.c:154)
+==8435==    by 0x10CCC0: hashtableInsert (hashtable.c:242)
+==8435==    by 0x10B5EA: test_hashtableInsert_random_result (unit_test_hashtableInsert.c:135)
+==8435==    by 0x10B70F: test_hashtableInsert_results (unit_test_hashtableInsert.c:154)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== 4,897 (1,008 direct, 3,889 indirect) bytes in 6 blocks are definitely lost in loss record 18 of 18
+==8435==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8435==    by 0x10C91F: hashtableCreate (hashtable.c:119)
+==8435==    by 0x10CB03: hashtableDoubleSize (hashtable.c:195)
+==8435==    by 0x10CC8F: hashtableInsert (hashtable.c:240)
+==8435==    by 0x10B5EA: test_hashtableInsert_random_result (unit_test_hashtableInsert.c:135)
+==8435==    by 0x10B70F: test_hashtableInsert_results (unit_test_hashtableInsert.c:154)
+==8435==    by 0x10C5E6: main (vg_exec.c:39)
+==8435== 
+==8435== LEAK SUMMARY:
+==8435==    definitely lost: 1,256 bytes in 15 blocks
+==8435==    indirectly lost: 4,820 bytes in 314 blocks
+==8435==      possibly lost: 0 bytes in 0 blocks
+==8435==    still reachable: 0 bytes in 0 blocks
+==8435==         suppressed: 0 bytes in 0 blocks
+==8435== 
+==8435== For lists of detected and suppressed errors, rerun with: -s
+==8435== ERROR SUMMARY: 18 errors from 18 contexts (suppressed: 0 from 0)

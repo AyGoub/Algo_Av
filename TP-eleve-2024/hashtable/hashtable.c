@@ -115,9 +115,13 @@ HashTable hashtableCreate(size_t sizeTable) {
     HashTable hashtable;
     hashtable.sizeTable=sizeTable;
     hashtable.numberOfPairs=0;
-    hashtable.table = (List *)malloc(sizeTable*sizeof(List));
-    for (size_t i=0;i<sizeTable;i++) {
-        hashtable.table[i] = NULL;
+    if (sizeTable > 0) {
+        hashtable.table = (List *)malloc(sizeTable*sizeof(List));
+        for (size_t i=0;i<sizeTable;i++) {
+            hashtable.table[i] = NULL;
+        }
+    } else {
+        hashtable.table = NULL;
     }
     return hashtable;
 }
@@ -150,7 +154,9 @@ void hashtableInsertWithoutResizing(HashTable *hashtable, string key, int value)
         hashtable->table[index]=addKeyValueInList(currentList,key,value);
         hashtable->numberOfPairs++;
     }
-    return;
+    
+    
+
 }
 
 

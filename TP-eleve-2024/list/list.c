@@ -32,9 +32,11 @@ void freeList(List L) {
 	if (L==NULL) {
 		return;
 	}
+    free(L->key);
 	freeList(L->nextCell);
+    
 	free(L);
-    	return;
+    	
 }
 
 /**
@@ -50,24 +52,28 @@ void freeList(List L) {
  */
 void printList(List L, int type) {
     if (L==NULL) {
-        printf("[]\n");
+        printf("[]");
     }
     else {
         printf("[");
         List newlist = L;
         while (newlist!=NULL) {
             if (type!=0) {
-                printf("(%s, %d)", newlist->key, newlist->value);
+                if(newlist->key!=NULL)
+                printf("(%s,%d)", newlist->key, newlist->value);
+                else{
+                    printf("(NULL,%d)",  newlist->value);
+                }
             }
             else {
                 printf("%d", newlist->value);
             }
             if (newlist->nextCell != NULL) {
-                printf(", ");
+                printf(",");
             }
             newlist = newlist->nextCell;
         }
-        printf("]\n");
+        printf("]");
     }
 }
 
@@ -104,10 +110,11 @@ Cell* findKeyInList(List L, string key) {
  * Only the first occurrence of the key is deleted.
  */
 List delKeyInList(List L, string key) {
-	List newList;
+	
     if (L == NULL) {
         return NULL;
     }
+    List newList;
     if (key == NULL && L->key == NULL) {
         newList = L->nextCell;
         free(L);
@@ -115,6 +122,7 @@ List delKeyInList(List L, string key) {
     }
     if (key != NULL && L->key != NULL && strcmp(L->key, key) == 0) {
         newList = L->nextCell;
+        free(L->key);
         free(L);
         return newList;
     }
@@ -135,13 +143,16 @@ List delKeyInList(List L, string key) {
  */
 
  List addKeyValueInList(List L, string key, int value) {
-	 List newlist;
-	 newlist=(List)malloc(sizeof(Cell));
-	 newlist->key=key;
-	 newlist->value=value;
-	 newlist->nextCell=L;
+	List newlist;
+	newlist=(List)malloc(sizeof(Cell));
+    if(key==NULL)
+	    newlist->key=NULL;
+    else{
+        newlist->key=strdup(key);
+    }
+
+	newlist->value=value;
+	newlist->nextCell=L;
 
     return newlist;
 }
-
-
