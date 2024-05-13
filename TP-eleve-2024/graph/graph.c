@@ -37,7 +37,7 @@ double distance(double x1, double y1, double x2, double y2){
  * Only the array of adjacency lists is updated.
  */
 void addEdgeInGraph(Graph graph, int origin, int destination) {
-    graph.array[origin]=addKeyValueInList(graph.array[origin],destination,destination);
+    graph.array[origin]=addKeyValueInList(graph.array[origin],NULL,destination);
 
     return;
 }
